@@ -3,8 +3,11 @@
 ## What this is
 
 The web front door for the proposal editor. Paste or upload a draft, get
-back a HOLD/FIXABLE/READY verdict and the findings, without Claude Code or
-a Claude Project. Same rules as everywhere else in this repo.
+back a HOLD/FIXABLE/READY verdict and the findings - no Claude Project
+needed, no Claude Code session for the *visitor* to run. Same rules as
+everywhere else in this repo. Under the hood the server itself shells out
+to the local `claude` CLI (see REFERENCES.md - Auth) - so the host running
+this app still needs Claude Code installed and logged in.
 
 ## Where everything lives
 
@@ -18,6 +21,7 @@ a Claude Project. Same rules as everywhere else in this repo.
 | File -> text extraction | `lib/extract.ts` |
 | Model response -> `{verdict, findings}` | `lib/parse-review.ts` |
 | Loading the editor's rules for the system prompt | `lib/load-rules.ts` |
+| Shelling out to the local `claude` CLI (subscription auth, not a billed key) | `lib/claude-cli.ts` |
 | The actual editor identity/rules/examples | `../identity.md`, `../rules.md`, `../examples.md`, `../reference/` (repo root, one level up) |
 
 ## The one rule that matters here
@@ -32,4 +36,6 @@ that change is wrong regardless of what else it does. See `../rules.md`.
     npm install
     npm run dev
 
-Needs `ANTHROPIC_API_KEY` in `.env.local` (see `REFERENCES.md`).
+No API key needed. Needs the `claude` CLI installed and already logged in
+on this machine (`claude auth login` / `claude login`) - see `REFERENCES.md`
+- Auth. Not deployable to Vercel or any serverless host for the same reason.

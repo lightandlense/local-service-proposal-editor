@@ -14,8 +14,10 @@
    skips this step.
 2. `lib/load-rules.ts` reads the four rules inputs above and concatenates
    them into one system prompt string.
-3. `app/api/review/route.ts` sends one Claude API call: system = the rules
-   string, user message = the draft text.
+3. `app/api/review/route.ts` calls `lib/claude-cli.ts`, which shells out to
+   the local `claude` CLI (`--system-prompt` = the rules string, the draft
+   text as the prompt) - runs on the host's Claude subscription login, not
+   a billed API key. See `REFERENCES.md` - Auth.
 4. `lib/parse-review.ts` splits the model's markdown response into
    `{ verdict: "HOLD" | "FIXABLE" | "READY", findings: Finding[] }` per the
    shape `rules.md` defines (`Finding = { rank, label, severity, quote,

@@ -1,17 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
-import Anthropic from "@anthropic-ai/sdk";
 import { extractText } from "@/lib/extract";
 import { loadRules } from "@/lib/load-rules";
+import { runClaude } from "@/lib/claude-cli";
 import { parseReview } from "@/lib/parse-review";
 
 export const runtime = "nodejs";
 
 export async function POST(req: NextRequest) {
-  const apiKey = process.env.ANTHROPIC_API_KEY;
-  if (!apiKey) {
-    return NextResponse.json({ error: "ANTHROPIC_API_KEY is not configured" }, { status: 500 });
-  }
-
   const form = await req.formData();
   const file = form.get("file");
   const text = form.get("text");
@@ -34,25 +29,14 @@ export async function POST(req: NextRequest) {
   }
 
   const system = await loadRules();
-  const anthropic = new Anthropic({ apiKey });
 
-  let message;
+  let raw: string;
   try {
-    message = await anthropic.messages.create({
-      model: "claude-sonnet-5",
-      max_tokens: 2048,
-      system,
-      messages: [{ role: "user", content: draft }],
-    });
+    raw = await runClaude(system, draft);
   } catch (err) {
-    const detail = err instanceof Anthropic.APIError ? err.message : "The review service is unavailable.";
+    const detail = err instanceof Error ? err.message : "The review service is unavailable.";
     return NextResponse.json({ error: detail }, { status: 502 });
   }
-
-  const raw = message.content
-    .filter((block) => block.type === "text")
-    .map((block) => block.text)
-    .join("\n");
 
   try {
     const parsed = parseReview(raw);
