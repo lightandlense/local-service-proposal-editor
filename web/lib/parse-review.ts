@@ -18,18 +18,18 @@ export interface ParsedReview {
 }
 
 const VERDICT_RE = /verdict:\s*(HOLD|FIXABLE|READY)/i;
-const FINDING_HEADER_RE = /^\*\*(\d+)\.\s*(.+?)\s*[—-]\s*(deal-killer|weakens|polish)\*\*$/i;
+const FINDING_HEADER_RE = /^(\d+)\.\s*(.+?)\s*[—–-]\s*(deal-killer|weakens|polish)$/i;
 const STRONGEST_RE = /^Strongest element:\s*(.+)$/i;
 const FIELD_PATTERNS: Array<{ key: keyof Omit<Finding, "rank" | "label" | "severity">; re: RegExp }> = [
-  { key: "quote", re: /^\*\*The line:\*\*\s*"?(.+?)"?$/i },
-  { key: "rule", re: /^\*\*The rule it breaks:\*\*\s*(.+)$/i },
-  { key: "reason", re: /^\*\*Why it fails for this reader:\*\*\s*(.+)$/i },
-  { key: "question", re: /^\*\*What the fix must answer:\*\*\s*(.+)$/i },
+  { key: "quote", re: /^The line:\s*"?(.+?)"?$/i },
+  { key: "rule", re: /^The rule it breaks:\s*(.+)$/i },
+  { key: "reason", re: /^Why it fails for this reader:\s*(.+)$/i },
+  { key: "question", re: /^What the fix must answer:\s*(.+)$/i },
 ];
 
 // ponytail: hand-rolled line parser over a fixed markdown shape (rules.md's finding format), not a real markdown AST — add a proper parser if the model output ever needs nested formatting.
 export function parseReview(raw: string): ParsedReview {
-  const lines = raw.split("\n").map(stripQuoteMarker);
+  const lines = raw.split("\n").map(normalizeLine);
 
   const verdictLine = lines.find((l) => VERDICT_RE.test(l));
   const verdictMatch = verdictLine?.match(VERDICT_RE);
@@ -71,8 +71,13 @@ export function parseReview(raw: string): ParsedReview {
   return { verdict, findings, strongest };
 }
 
-function stripQuoteMarker(line: string): string {
-  return line.replace(/^>\s?/, "").trim();
+// Strips blockquote markers and markdown bold - the model's exact bold
+// placement drifts (whole field vs. just the label), so match on plain text.
+function normalizeLine(line: string): string {
+  return line
+    .replace(/^>\s?/, "")
+    .replace(/\*\*/g, "")
+    .trim();
 }
 
 function finalizeFinding(f: Partial<Finding>): Finding {

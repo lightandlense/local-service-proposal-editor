@@ -56,3 +56,49 @@ test("throws when a finding is missing a required field", () => {
 `;
   assert.throws(() => parseReview(broken));
 });
+
+test("tolerates bold placed only around the label, not the whole field", () => {
+  // e.g. "**Verdict:** HOLD" instead of "**Verdict: HOLD**"
+  const drifted = `
+**Verdict:** HOLD
+
+> **1. Something bad** — deal-killer
+> **The line:** "quoted text here"
+> **The rule it breaks:** R1 — some rule.
+> **Why it fails for this reader:** because reasons.
+> **What the fix must answer:** a question?
+`;
+  const result = parseReview(drifted);
+  assert.equal(result.verdict, "HOLD");
+  assert.equal(result.findings.length, 1);
+  assert.equal(result.findings[0].severity, "deal-killer");
+});
+
+test("tolerates an en dash between label and severity", () => {
+  const enDash = `
+**Verdict: HOLD**
+
+> **1. Something bad – deal-killer**
+> **The line:** "quoted text here"
+> **The rule it breaks:** R1 — some rule.
+> **Why it fails for this reader:** because reasons.
+> **What the fix must answer:** a question?
+`;
+  const result = parseReview(enDash);
+  assert.equal(result.findings.length, 1);
+});
+
+test("tolerates fields with no bold markdown at all", () => {
+  const plain = `
+Verdict: READY
+
+1. Something bad - polish
+The line: "quoted text here"
+The rule it breaks: R1 - some rule.
+Why it fails for this reader: because reasons.
+What the fix must answer: a question?
+`;
+  const result = parseReview(plain);
+  assert.equal(result.verdict, "READY");
+  assert.equal(result.findings.length, 1);
+});

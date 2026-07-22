@@ -25,6 +25,7 @@ export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [errorRaw, setErrorRaw] = useState<string | null>(null);
   const [runs, setRuns] = useState<ReviewRun[]>([]);
 
   async function submitReview() {
@@ -34,6 +35,7 @@ export default function Home() {
     }
     setLoading(true);
     setError(null);
+    setErrorRaw(null);
 
     const form = new FormData();
     if (file) form.set("file", file);
@@ -44,6 +46,7 @@ export default function Home() {
       const data = await res.json();
       if (!res.ok) {
         setError(data.error ?? "Something went wrong.");
+        setErrorRaw(typeof data.raw === "string" ? data.raw : null);
         return;
       }
       setRuns((prev) => [{ id: Date.now(), parsed: data as ParsedReview }, ...prev]);
@@ -106,7 +109,16 @@ export default function Home() {
             </button>
           </div>
 
-          {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
+          {error && (
+            <div className="flex flex-col gap-2">
+              <p className="text-sm text-red-600 dark:text-red-400">{error}</p>
+              {errorRaw && (
+                <pre className="whitespace-pre-wrap rounded-lg border border-zinc-200 bg-zinc-100 p-3 text-xs text-zinc-700 dark:border-zinc-800 dark:bg-zinc-900 dark:text-zinc-300">
+                  {errorRaw}
+                </pre>
+              )}
+            </div>
+          )}
         </section>
 
         <section className="flex flex-col gap-8">
