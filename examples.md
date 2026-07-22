@@ -17,6 +17,8 @@
 
 **The editor's review:**
 
+> **Verdict: HOLD**
+>
 > **1. The proposal opens with you, not them — deal-killer**
 > **The line:** "Apex Digital is a full-service digital marketing agency with over 10 years of combined experience…"
 > **The rule it breaks:** R1 — open with their problem, not your services.
