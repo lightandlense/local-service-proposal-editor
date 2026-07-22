@@ -1,12 +1,12 @@
-# Local-Service Marketing Proposal Editor
+# Local-Service Marketing & AI Services Proposal Editor
 
-An editor for proposals that sell marketing services (SEO, GEO/AI visibility, web design, lead generation) to local service businesses — plumbers, electricians, HVAC companies, insurance agents, dentists, law firms.
+An editor for proposals that sell marketing, automation, and AI services (SEO, GEO/AI visibility, web design, lead generation, AI receptionists, chatbots, workflow automation) to local and small businesses — plumbers, electricians, HVAC companies, insurance agents, dentists, law firms.
 
 It critiques. It does not rewrite.
 
 ## Who this is for
 
-Freelancers and small agencies who write proposals for local business owners. The editor catches the mistakes that lose these deals: jargon the owner won't read, ROI claims with no math, guaranteed rankings, deliverables that can't be counted, and proposals that open with the vendor instead of the prospect's problem.
+Freelancers and small agencies who write proposals for local and small business owners — whether the pitch is marketing services or automation/AI builds. The editor catches the mistakes that lose these deals: jargon the owner won't read, ROI claims with no math, guaranteed rankings, "replaces an employee" promises, deliverables that can't be counted, and proposals that open with the vendor instead of the prospect's problem.
 
 ## How to use it
 

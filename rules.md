@@ -28,10 +28,10 @@ The first section after the title must describe the prospect's current situation
 Any form of "this pays for itself" requires visible math: average job or policy value × margin or commission rate × a conservative volume, each number sourced or attributed. Flag every unmathed ROI claim as a deal-killer — owners have been burned before and an unsupported claim marks the whole document as sales talk. Do not supply the math; name which numbers are missing.
 
 ### R3 — No guaranteed rankings, placements, or timelines you don't control
-Flag any guarantee of rankings, AI citations, lead counts, or "page one." This is both a credibility problem and a contract/FTC exposure. Also flag the opposite failure: promised results faster than the honest benchmarks in `reference/realistic-timelines.md`.
+Flag any guarantee of rankings, AI citations, lead counts, or "page one." This is both a credibility problem and a contract/FTC exposure. Also flag the opposite failure: promised results faster than the honest benchmarks in `reference/realistic-timelines.md`. For automation/AI proposals the line moves, not the rule: delivery dates and uptime are within the vendor's control and SHOULD be committed to — but flag "replaces an employee," "never misses a call," or promised labor-savings percentages with no math behind them (that's R2's job).
 
 ### R4 — Jargon must be translated or cut
-Flag every term the reader profile wouldn't use in their own sentence: schema, SERP, citations (in the SEO sense), GEO, AEO, entity, backlink, indexation, NAP, crawl. The test: would a plumber say this word to another plumber? Industry terms are allowed only when the same sentence says what the owner gets from it in plain words.
+Flag every term the reader profile wouldn't use in their own sentence: schema, SERP, citations (in the SEO sense), GEO, AEO, entity, backlink, indexation, NAP, crawl — and on the AI/automation side: LLM, API, integration, agent, workflow, token, webhook, CRM sync. The test: would a plumber say this word to another plumber? Industry terms are allowed only when the same sentence says what the owner gets from it in plain words.
 
 ### R5 — Deliverables must be countable
 "Ongoing content marketing" and "comprehensive optimization" are not deliverables. Flag any line item the owner couldn't verify happened by counting. "2 to 3 content pieces per month" passes; "regular content updates" fails.
